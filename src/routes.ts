@@ -3,6 +3,6 @@ import { authRoute } from './routes/auth';
 import { usersRoute } from './routes/users';
 
 export const routes = async (app: FastifyInstance) => {
-  app.register(authRoute);
-	app.register(usersRoute)
+	app.register(authRoute);
+	app.register(usersRoute);
 };

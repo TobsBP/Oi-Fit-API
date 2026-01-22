@@ -8,8 +8,8 @@ export async function authRoute(server: FastifyInstance) {
 	server.post(
 		'/register',
 		{
-      schema: {
-        description: 'Register a new user',
+			schema: {
+				description: 'Register a new user',
 				body: registerSchema,
 				response: {
 					201: z.object({ message: z.string() }),
@@ -25,8 +25,8 @@ export async function authRoute(server: FastifyInstance) {
 	server.post(
 		'/login',
 		{
-      schema: {
-        description: 'Login a user and generate a token',
+			schema: {
+				description: 'Login a user and generate a token',
 				body: loginSchema,
 				response: {
 					200: z.object({ token: z.string() }),
