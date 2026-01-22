@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-export class UsersRepository {
+class UsersRepository {
 	async getAllUsers() {
 		return await supabase.from('User').select('*');
 	}

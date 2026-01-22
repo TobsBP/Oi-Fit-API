@@ -4,7 +4,6 @@ import { usersService } from '@/services/users';
 export class UsersController {
 	async getAllUsers(_request: FastifyRequest, reply: FastifyReply) {
 		const { data, error } = await usersService.getAllUsers();
-		console.log(data);
 
 		if (error) {
 			reply.status(500).send({ error });

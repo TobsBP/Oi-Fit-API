@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 export const productSchema = z.object({
 	id: z.string(),
-	name: z.string().min(2).max(100),
-	description: z.string().min(2).max(500),
-	price: z.number().min(0).max(10000),
-	isActive: z.boolean().default(true),
+	name: z.string(),
+	description: z.string(),
+	price: z.number(),
+	isActive: z.boolean(),
 	categoryId: z.string(),
-	createdAt: z.date().default(new Date()),
-	updatedAt: z.date().default(new Date()),
+	createdAt: z.string(),
+	updatedAt: z.string(),
 });

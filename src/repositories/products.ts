@@ -1,6 +1,6 @@
 import { supabase } from '@/lib/supabase';
 
-export class ProductsRepository {
+class ProductsRepository {
 	async getAllProducts() {
 		return await supabase.from('Product').select('*');
 	}
@@ -9,3 +9,5 @@ export class ProductsRepository {
 		return await supabase.from('Product').select('*').eq('id', id).single();
 	}
 }
+
+export const productsRepository = new ProductsRepository();
