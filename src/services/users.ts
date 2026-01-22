@@ -5,8 +5,8 @@ export class UsersService {
     return await usersRepository.getAllUsers();
   }
   
-  async getUserByEmail(email: string) {
-    return await usersRepository.findUserByEmail(email);
+  async getUserById(id: string) {
+    return await usersRepository.findUserById(id);
   }
 }
 
