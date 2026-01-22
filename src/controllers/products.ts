@@ -6,7 +6,7 @@ class ProductsController {
 		const { data, error } = await productsService.getAllProducts();
 
 		console.log('data', data);
-		
+
 		if (error) {
 			reply.status(500).send({ error });
 		} else {
