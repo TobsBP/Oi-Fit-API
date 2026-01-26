@@ -10,3 +10,8 @@ export const productSchema = z.object({
 	createdAt: z.string(),
 	updatedAt: z.string(),
 });
+
+export type Product = z.infer<typeof productSchema>;
+
+export type ProductCreate = Omit<Product, 'id' | 'createdAt' | 'updatedAt'>;
+export type ProductUpdate = Partial<Product>;
