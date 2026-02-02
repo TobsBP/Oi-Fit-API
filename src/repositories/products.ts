@@ -3,11 +3,15 @@ import type { ProductCreate, ProductUpdate } from '@/types/products';
 
 class ProductsRepository {
 	async getAllProducts() {
-		return await supabase.from('Product').select('*');
+		return await supabase.from('Product').select('*, Variant(*)');
 	}
 
 	async getProductById(id: string) {
-		return await supabase.from('Product').select('*').eq('id', id).single();
+		return await supabase
+			.from('Product')
+			.select('*, Variant(*)')
+			.eq('id', id)
+			.single();
 	}
 
 	async createProduct(product: ProductCreate) {

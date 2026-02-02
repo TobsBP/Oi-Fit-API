@@ -21,7 +21,7 @@ export async function productsRoute(server: FastifyInstance) {
 	);
 
 	server.get(
-		'/products/:id',
+		'/product/:id',
 		{
 			schema: {
 				description: 'Get a product by id',
@@ -52,7 +52,7 @@ export async function productsRoute(server: FastifyInstance) {
 	);
 
 	server.put(
-		'/products/:id',
+		'/product/:id',
 		{
 			schema: {
 				description: 'Update a product',
@@ -69,7 +69,7 @@ export async function productsRoute(server: FastifyInstance) {
 	);
 
 	server.delete(
-		'/products/:id',
+		'/product/:id',
 		{
 			schema: {
 				description: 'Delete a product',

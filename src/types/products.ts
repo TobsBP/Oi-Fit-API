@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { variantSchema } from './variant';
 
 export const productSchema = z.object({
 	id: z.string(),
@@ -9,6 +10,7 @@ export const productSchema = z.object({
 	categoryId: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	Variant: z.array(variantSchema),
 });
 
 export type Product = z.infer<typeof productSchema>;
