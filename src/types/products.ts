@@ -1,16 +1,18 @@
 import { z } from 'zod';
-import { variantSchema } from './variant';
 
 export const productSchema = z.object({
 	id: z.string(),
 	name: z.string(),
 	description: z.string(),
-	price: z.number(),
+  price: z.number(),
+  discount: z.number(),
+  category: z.string(),
+  size: z.string(),
+  stock: z.number(),
+  images: z.array(z.string()).nullable(),
 	isActive: z.boolean(),
-	categoryId: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	Variant: z.array(variantSchema),
 });
 
 export type Product = z.infer<typeof productSchema>;

@@ -1,17 +1,13 @@
-import { supabase } from '@/lib/supabase.js';
-import type { ProductCreate, ProductUpdate } from '@/types/products.js';
+import { supabase } from '@/lib/supabase';
+import type { ProductCreate, ProductUpdate } from '@/types/products';
 
 class ProductsRepository {
 	async getAllProducts() {
-		return await supabase.from('Product').select('*, Variant(*)');
+		return await supabase.from('Product').select('*');
 	}
 
 	async getProductById(id: string) {
-		return await supabase
-			.from('Product')
-			.select('*, Variant(*)')
-			.eq('id', id)
-			.single();
+		return await supabase.from('Product').select('*').eq('id', id).single();
 	}
 
 	async createProduct(product: ProductCreate) {
