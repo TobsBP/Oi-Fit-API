@@ -5,7 +5,7 @@ import type { ProductCreate, ProductUpdate } from '@/types/products.js';
 class ProductsController {
 	async getAllProducts(_request: FastifyRequest, reply: FastifyReply) {
 		const { data, error } = await productsService.getAllProducts();
-		
+
 		if (error) {
 			reply.status(500).send({ error });
 		} else {
