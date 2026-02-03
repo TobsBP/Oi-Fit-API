@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { addressService } from '@/services/address';
-import type { Address, AddressUpdate } from '@/types/address';
+import { addressService } from '@/services/address.js';
+import type { Address, AddressUpdate } from '@/types/address.js';
 
 class AddressController {
 	async getAllAddress(_request: FastifyRequest, reply: FastifyReply) {

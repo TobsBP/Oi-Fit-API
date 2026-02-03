@@ -1,5 +1,5 @@
-import { addressRepository } from '@/repositories/address';
-import type { AddressCreate, AddressUpdate } from '@/types/address';
+import { addressRepository } from '@/repositories/address.js';
+import type { AddressCreate, AddressUpdate } from '@/types/address.js';
 
 class AddressService {
 	async getAllAddress() {

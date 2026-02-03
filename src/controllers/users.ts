@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { usersService } from '@/services/users';
+import { usersService } from '@/services/users.js';
 
 export class UsersController {
 	async getAllUsers(_request: FastifyRequest, reply: FastifyReply) {

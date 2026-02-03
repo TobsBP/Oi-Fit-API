@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase';
-import type { AddressCreate, AddressUpdate } from '@/types/address';
+import { supabase } from '@/lib/supabase.js';
+import type { AddressCreate, AddressUpdate } from '@/types/address.js';
 
 class AddressRepository {
 	async getAllAdress() {

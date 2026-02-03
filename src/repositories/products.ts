@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase';
-import type { ProductCreate, ProductUpdate } from '@/types/products';
+import { supabase } from '@/lib/supabase.js';
+import type { ProductCreate, ProductUpdate } from '@/types/products.js';
 
 class ProductsRepository {
 	async getAllProducts() {

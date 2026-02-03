@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import z from 'zod';
-import { addressController } from '@/controllers/address';
-import { addressSchema } from '@/types/address';
-import { ErrorSchema } from '@/types/error';
+import { addressController } from '@/controllers/address.js';
+import { addressSchema } from '@/types/address.js';
+import { ErrorSchema } from '@/types/error.js';
 
 export async function addressRoute(server: FastifyInstance) {
 	server.get(

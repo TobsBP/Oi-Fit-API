@@ -1,4 +1,4 @@
-import { supabase } from '@/lib/supabase';
+import { supabase } from '@/lib/supabase.js';
 
 class UsersRepository {
 	async getAllUsers() {

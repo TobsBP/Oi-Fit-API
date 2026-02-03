@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { productsService } from '@/services/products';
-import type { ProductCreate, ProductUpdate } from '@/types/products';
+import { productsService } from '@/services/products.js';
+import type { ProductCreate, ProductUpdate } from '@/types/products.js';
 
 class ProductsController {
 	async getAllProducts(_request: FastifyRequest, reply: FastifyReply) {

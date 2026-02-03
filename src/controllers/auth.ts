@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { authService } from '@/services/auth';
-import type { Login, Register } from '@/types/auth';
+import { authService } from '@/services/auth.js';
+import type { Login, Register } from '@/types/auth.js';
 
 export class AuthController {
 	async register(request: FastifyRequest, reply: FastifyReply) {

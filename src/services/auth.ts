@@ -1,5 +1,5 @@
-import { supabase } from '../lib/supabase';
-import type { Login, Register } from '../types/auth';
+import { supabase } from '../lib/supabase.js';
+import type { Login, Register } from '../types/auth.js';
 
 export class AuthService {
 	async signUp(userData: Register) {

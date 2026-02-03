@@ -1,5 +1,5 @@
-import { productsRepository } from '@/repositories/products';
-import type { ProductCreate, ProductUpdate } from '@/types/products';
+import { productsRepository } from '@/repositories/products.js';
+import type { ProductCreate, ProductUpdate } from '@/types/products.js';
 
 class ProductsService {
 	async getAllProducts() {
