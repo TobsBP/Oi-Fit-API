@@ -2,7 +2,7 @@
 FROM node:20-alpine AS build 
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
-RUN npm ci
+RUN npm i
 COPY . .
 RUN npm run build
 
@@ -15,7 +15,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 
 # Then we'll clean up unnecessary ones
-RUN npm ci && npm cache clean --force
+RUN npm i
 
 # Copy built files from build stage
 COPY --from=build /usr/src/app/dist ./dist 
