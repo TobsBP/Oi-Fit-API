@@ -1,25 +1,31 @@
 # STAGE 1: Build Stage
 FROM node:20-alpine AS build 
-
 WORKDIR /usr/src/app
-
 COPY package.json package-lock.json ./
 RUN npm ci
-
 COPY . .
 RUN npm run build
 
 # STAGE 2: Production Stage
 FROM node:20-alpine AS production
-
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
+# Copy package files
 COPY package.json package-lock.json ./
-RUN npm ci --only=production --no-optional && npm cache clean --force
 
+# Then we'll clean up unnecessary ones
+RUN npm ci && npm cache clean --force
+
+# Copy built files from build stage
 COPY --from=build /usr/src/app/dist ./dist 
+
+# Copy babel config
+COPY babel.config.cjs ./
+
+RUN npm prune --production
 
 EXPOSE 3333
 
-CMD ["node", "dist/server.js"] 
+# Use exec form to ensure proper signal handling
+CMD ["node", "dist/server.js"]
