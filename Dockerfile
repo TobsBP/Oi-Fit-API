@@ -1,39 +1,36 @@
-FROM node:20-alpine AS builder
+# STAGE 1: Build Stage
+FROM node:20-alpine AS build
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# Copy package files and install all dependencies (including dev)
+# Copy package files
 COPY package.json package-lock.json ./
-RUN npm install
 
-# Copy source code and build configuration
-COPY src ./src
-COPY tsconfig.json ./
+# Install ALL dependencies (including dev dependencies for build)
+RUN npm i
 
-# Compile TypeScript to JavaScript
-RUN npx tsc --outDir dist
+# Copy source code and config files
+COPY . .
 
-# Stage 2: Create the production image
-FROM node:20-alpine
+# Build the application
+RUN npm run build
 
-WORKDIR /app
+# STAGE 2: Production Stage
+FROM node:20-alpine AS production
 
-# Create a non-root user for security
-RUN addgroup -S appgroup && adduser -S appuser -G appgroup
-USER appuser
+ENV NODE_ENV=production
+WORKDIR /usr/src/app
 
-# Copy only production dependencies from the builder stage
+# Copy package files
 COPY package.json package-lock.json ./
-RUN npm install --production
 
-# Copy the compiled code from the builder stage
-COPY --from=builder /app/dist ./dist
+# Install ONLY production dependencies
+RUN npm i
 
-# Expose the application port
+# Copy the entire dist folder from build stage
+COPY --from=build /usr/src/app/dist ./dist
+
 EXPOSE 3333
 
-# The application requires a JWT_SECRET environment variable.
-# Pass it during 'docker run', e.g., docker run -e JWT_SECRET='your-secret' my-app
-#
-# Start the application
-CMD [ "node", "dist/server.js" ]
+# Use node directly instead of npm start (more reliable)
+CMD ["npm", "start"]
