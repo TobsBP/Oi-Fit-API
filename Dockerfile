@@ -1,36 +1,16 @@
-# STAGE 1: Build Stage
-FROM node:20-alpine AS build
-
-WORKDIR /usr/src/app
-
-# Copy package files
-COPY package.json package-lock.json ./
-
-# Install ALL dependencies (including dev dependencies for build)
-RUN npm i
-
-# Copy source code and config files
-COPY . .
-
-# Build the application
-RUN npm run build
-
-# STAGE 2: Production Stage
+# STAGE 1: Production Stage
 FROM node:20-alpine AS production
 
 ENV NODE_ENV=production
 WORKDIR /usr/src/app
 
-# Copy package files
 COPY package.json package-lock.json ./
+RUN npm ci --only=production --no-optional
 
-# Install ONLY production dependencies
-RUN npm i
-
-# Copy the entire dist folder from build stage
+# Copy built app and any runtime configs/scripts
 COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 3333
 
-# Use node directly instead of npm start (more reliable)
-CMD ["npm", "start"]
+# Fix: Run node directly for better signal handling
+CMD ["node", "dist/server.js"]
