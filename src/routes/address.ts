@@ -28,7 +28,7 @@ export async function addressRoute(server: FastifyInstance) {
 			schema: {
 				description: 'Get a product by userId',
 				response: {
-					200: addressSchema,
+					200: z.array(addressSchema),
 					404: ErrorSchema,
 				},
 				tags: ['Address'],

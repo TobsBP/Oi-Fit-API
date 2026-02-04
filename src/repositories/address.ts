@@ -7,11 +7,7 @@ class AddressRepository {
 	}
 
 	async getAddressByUserId(userId: string) {
-		return await supabase
-			.from('Address')
-			.select('*')
-			.eq('userId', userId)
-			.single();
+		return await supabase.from('Address').select('*').eq('userId', userId);
 	}
 
 	async createAddress(address: AddressCreate) {
