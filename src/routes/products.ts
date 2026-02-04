@@ -74,6 +74,25 @@ export async function productsRoute(server: FastifyInstance) {
 		productsController.updateProduct,
 	);
 
+	server.patch(
+		'/product/:id',
+		{
+			schema: {
+				description: 'Partially update a product',
+				body: productSchema
+					.omit({ id: true, createdAt: true, updatedAt: true })
+					.partial(),
+				response: {
+					200: productSchema,
+					400: ErrorSchema,
+					404: ErrorSchema,
+				},
+				tags: ['Products'],
+			},
+		},
+		productsController.updateProduct,
+	);
+
 	server.delete(
 		'/product/:id',
 		{

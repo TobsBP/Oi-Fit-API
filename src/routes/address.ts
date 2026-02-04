@@ -68,6 +68,23 @@ export async function addressRoute(server: FastifyInstance) {
 		addressController.updateAddress,
 	);
 
+	server.patch(
+		'/address/:id',
+		{
+			schema: {
+				description: 'Partially update an address',
+				body: addressSchema.omit({ id: true }).partial(),
+				response: {
+					200: addressSchema,
+					400: ErrorSchema,
+					404: ErrorSchema,
+				},
+				tags: ['Address'],
+			},
+		},
+		addressController.updateAddress,
+	);
+
 	server.delete(
 		'/address/:id',
 		{
