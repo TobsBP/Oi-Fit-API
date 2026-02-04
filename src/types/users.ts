@@ -8,3 +8,8 @@ export const userSchema = z.object({
 	createdAt: z.string(),
 	updatedAt: z.string(),
 });
+
+export type User = z.infer<typeof userSchema>;
+export type UserUpdate = Partial<
+	Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'email'>
+>;

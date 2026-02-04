@@ -36,4 +36,40 @@ export async function usersRoute(server: FastifyInstance) {
 		},
 		usersController.getUserById,
 	);
+
+	server.put(
+		'/user/:id',
+		{
+			schema: {
+				description: 'Update a user',
+				params: z.object({ id: z.uuid() }),
+				body: userSchema
+					.omit({ id: true, createdAt: true, updatedAt: true, email: true })
+					.partial(),
+				response: {
+					200: userSchema,
+					400: ErrorSchema,
+					404: ErrorSchema,
+				},
+				tags: ['Users'],
+			},
+		},
+		usersController.updateUser,
+	);
+
+	server.delete(
+		'/user/:id',
+		{
+			schema: {
+				description: 'Delete a user',
+				params: z.object({ id: z.uuid() }),
+				response: {
+					204: z.object({}),
+					404: ErrorSchema,
+				},
+				tags: ['Users'],
+			},
+		},
+		usersController.deleteUser,
+	);
 }
