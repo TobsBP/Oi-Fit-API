@@ -1,8 +1,8 @@
 import type { FastifyInstance } from 'fastify';
 import z from 'zod';
-import { productsController } from '@/controllers/products';
-import { ErrorSchema } from '@/types/error';
-import { productSchema } from '@/types/products';
+import { productsController } from '@/controllers/products.js';
+import { ErrorSchema } from '@/types/error.js';
+import { productSchema } from '@/types/products.js';
 
 export async function productsRoute(server: FastifyInstance) {
 	server.get(
@@ -40,7 +40,11 @@ export async function productsRoute(server: FastifyInstance) {
 		{
 			schema: {
 				description: 'Create a product',
-				body: productSchema.omit({ id: true }),
+				body: productSchema.omit({
+					id: true,
+					createdAt: true,
+					updatedAt: true,
+				}),
 				response: {
 					201: productSchema,
 					400: ErrorSchema,
@@ -56,7 +60,9 @@ export async function productsRoute(server: FastifyInstance) {
 		{
 			schema: {
 				description: 'Update a product',
-				body: productSchema.partial(),
+				body: productSchema
+					.omit({ id: true, createdAt: true, updatedAt: true })
+					.partial(),
 				response: {
 					200: productSchema,
 					400: ErrorSchema,

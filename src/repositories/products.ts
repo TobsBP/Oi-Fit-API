@@ -1,5 +1,5 @@
-import { supabase } from '@/lib/supabase';
-import type { ProductCreate, ProductUpdate } from '@/types/products';
+import { supabase } from '@/lib/supabase.js';
+import type { ProductCreate, ProductUpdate } from '@/types/products.js';
 
 class ProductsRepository {
 	async getAllProducts() {
@@ -11,15 +11,25 @@ class ProductsRepository {
 	}
 
 	async createProduct(product: ProductCreate) {
-		return await supabase.from('Product').insert(product).single();
+		return await supabase.from('Product').insert(product).select().single();
 	}
 
 	async updateProduct(id: string, product: ProductUpdate) {
-		return await supabase.from('Product').update(product).eq('id', id).single();
+		return await supabase
+			.from('Product')
+			.update(product)
+			.eq('id', id)
+			.select()
+			.single();
 	}
 
 	async deleteProduct(id: string) {
-		return await supabase.from('Product').delete().eq('id', id).single();
+		return await supabase
+			.from('Product')
+			.delete()
+			.eq('id', id)
+			.select()
+			.single();
 	}
 }
 
