@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import z from 'zod';
 import { productsController } from '@/controllers/products.js';
+import { authenticate } from '@/middleware.js';
 import { ErrorSchema } from '@/types/error.js';
 import { productSchema } from '@/types/products.js';
 
@@ -8,6 +9,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.get(
 		'/products',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Get all products',
 				response: {
@@ -23,6 +25,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.get(
 		'/product/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Get a product by id',
 				response: {
@@ -38,6 +41,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.post(
 		'/product',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Create a product',
 				body: productSchema.omit({
@@ -58,6 +62,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.put(
 		'/product/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Update a product',
 				body: productSchema
@@ -77,6 +82,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.patch(
 		'/product/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Partially update a product',
 				body: productSchema
@@ -96,6 +102,7 @@ export async function productsRoute(server: FastifyInstance) {
 	server.delete(
 		'/product/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Delete a product',
 				response: {

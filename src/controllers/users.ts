@@ -13,11 +13,8 @@ export class UsersController {
 		}
 	}
 
-	async getUserById(
-		request: FastifyRequest<{ Params: { id: string } }>,
-		reply: FastifyReply,
-	) {
-		const { id } = request.params;
+	async getUserById(request: FastifyRequest, reply: FastifyReply) {
+		const { id } = request.params as { id: string };
 		const { data, error } = await usersService.getUserById(id);
 		if (error) {
 			reply.status(500).send({ error });
@@ -26,11 +23,8 @@ export class UsersController {
 		}
 	}
 
-	async updateUser(
-		request: FastifyRequest<{ Params: { id: string } }>,
-		reply: FastifyReply,
-	) {
-		const { id } = request.params;
+	async updateUser(request: FastifyRequest, reply: FastifyReply) {
+		const { id } = request.params as { id: string };
 		const userData = request.body as UserUpdate;
 		const { data, error } = await usersService.updateUser(id, userData);
 
@@ -41,11 +35,8 @@ export class UsersController {
 		}
 	}
 
-	async deleteUser(
-		request: FastifyRequest<{ Params: { id: string } }>,
-		reply: FastifyReply,
-	) {
-		const { id } = request.params;
+	async deleteUser(request: FastifyRequest, reply: FastifyReply) {
+		const { id } = request.params as { id: string };
 		const { error } = await usersService.deleteUser(id);
 
 		if (error) {

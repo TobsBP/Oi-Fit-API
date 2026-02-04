@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import z from 'zod';
 import { addressController } from '@/controllers/address.js';
+import { authenticate } from '@/middleware.js';
 import { addressSchema } from '@/types/address.js';
 import { ErrorSchema } from '@/types/error.js';
 
@@ -8,6 +9,7 @@ export async function addressRoute(server: FastifyInstance) {
 	server.get(
 		'/addresses',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Get all addresses',
 				response: {

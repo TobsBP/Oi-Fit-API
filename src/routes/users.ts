@@ -1,6 +1,7 @@
 import type { FastifyInstance } from 'fastify';
 import { z } from 'zod';
 import { usersController } from '@/controllers/users.js';
+import { authenticate } from '@/middleware.js';
 import { ErrorSchema } from '@/types/error.js';
 import { userSchema } from '@/types/users.js';
 
@@ -8,6 +9,7 @@ export async function usersRoute(server: FastifyInstance) {
 	server.get(
 		'/users',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Get all users',
 				response: {
@@ -23,6 +25,7 @@ export async function usersRoute(server: FastifyInstance) {
 	server.get(
 		'/user/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Get a user by ID',
 				params: z.object({ id: z.uuid() }),
@@ -40,6 +43,7 @@ export async function usersRoute(server: FastifyInstance) {
 	server.put(
 		'/user/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Update a user',
 				params: z.object({ id: z.uuid() }),
@@ -60,6 +64,7 @@ export async function usersRoute(server: FastifyInstance) {
 	server.patch(
 		'/user/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Partially update a user',
 				params: z.object({ id: z.uuid() }),
@@ -80,6 +85,7 @@ export async function usersRoute(server: FastifyInstance) {
 	server.delete(
 		'/user/:id',
 		{
+			preHandler: [authenticate],
 			schema: {
 				description: 'Delete a user',
 				params: z.object({ id: z.uuid() }),
