@@ -9,7 +9,6 @@ export async function productsRoute(server: FastifyInstance) {
 	server.get(
 		'/products',
 		{
-			preHandler: [authenticate],
 			schema: {
 				description: 'Get all products',
 				response: {
@@ -25,7 +24,6 @@ export async function productsRoute(server: FastifyInstance) {
 	server.get(
 		'/product/:id',
 		{
-			preHandler: [authenticate],
 			schema: {
 				description: 'Get a product by id',
 				response: {
