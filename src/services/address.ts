@@ -3,7 +3,7 @@ import type { AddressCreate, AddressUpdate } from '@/types/address.js';
 
 class AddressService {
 	async getAllAddress() {
-		return await addressRepository.getAllAdress();
+		return await addressRepository.getAllAddress();
 	}
 
 	async getAddressByUserId(email: string) {
@@ -11,7 +11,7 @@ class AddressService {
 	}
 
 	async createAddress(address: AddressCreate) {
-		return await addressRepository.creatAddress(address);
+		return await addressRepository.createAddress(address);
 	}
 
 	async updateAddress(id: string, address: AddressUpdate) {
@@ -19,7 +19,7 @@ class AddressService {
 	}
 
 	async deleteAddress(id: string) {
-		return await addressRepository.deleteAddres(id);
+		return await addressRepository.deleteAddress(id);
 	}
 }
 

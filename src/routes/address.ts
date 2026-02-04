@@ -56,7 +56,7 @@ export async function addressRoute(server: FastifyInstance) {
 		{
 			schema: {
 				description: 'Update an address',
-				body: addressSchema.partial(),
+				body: addressSchema.omit({ id: true }).partial(),
 				response: {
 					200: addressSchema,
 					400: ErrorSchema,

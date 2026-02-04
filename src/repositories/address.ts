@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase.js';
 import type { AddressCreate, AddressUpdate } from '@/types/address.js';
 
 class AddressRepository {
-	async getAllAdress() {
+	async getAllAddress() {
 		return await supabase.from('Address').select('*');
 	}
 
@@ -14,16 +14,26 @@ class AddressRepository {
 			.single();
 	}
 
-	async creatAddress(address: AddressCreate) {
-		return await supabase.from('Address').insert(address).single();
+	async createAddress(address: AddressCreate) {
+		return await supabase.from('Address').insert(address).select().single();
 	}
 
 	async updateAddress(id: string, address: AddressUpdate) {
-		return await supabase.from('Address').update(address).eq('id', id).single();
+		return await supabase
+			.from('Address')
+			.update(address)
+			.eq('id', id)
+			.select()
+			.single();
 	}
 
-	async deleteAddres(id: string) {
-		return await supabase.from('Address').delete().eq('id', id).single();
+	async deleteAddress(id: string) {
+		return await supabase
+			.from('Address')
+			.delete()
+			.eq('id', id)
+			.select()
+			.single();
 	}
 }
 

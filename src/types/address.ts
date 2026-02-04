@@ -16,4 +16,4 @@ export const addressSchema = z.object({
 export type Address = z.infer<typeof addressSchema>;
 
 export type AddressCreate = Omit<Address, 'id'>;
-export type AddressUpdate = Partial<Address>;
+export type AddressUpdate = Partial<AddressCreate>;
