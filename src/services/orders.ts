@@ -8,6 +8,10 @@ class OrdersService {
 		return await ordersRepository.getAllOrders();
 	}
 
+	async getOrdersByUser(userId: string) {
+		return await ordersRepository.getOrdersByUser(userId);
+	}
+
 	async createOrder(order: OrderCreate) {
 		return await ordersRepository.createOrder(order);
 	}

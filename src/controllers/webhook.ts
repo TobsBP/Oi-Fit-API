@@ -28,11 +28,10 @@ class WebhookController {
 			if (event.type === 'payment_intent.succeeded') {
 				const paymentIntent = event.data.object;
 
-				const { error } =
-					await ordersRepository.updateOrdersByPaymentIntent(
-						paymentIntent.id,
-						'paid',
-					);
+				const { error } = await ordersRepository.updateOrdersByPaymentIntent(
+					paymentIntent.id,
+					'paid',
+				);
 
 				if (error) {
 					console.error('Erro ao atualizar pedidos:', error);

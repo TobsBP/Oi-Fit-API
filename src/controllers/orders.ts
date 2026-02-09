@@ -10,13 +10,27 @@ class OrdersController {
 	async getAllOrders(_request: FastifyRequest, reply: FastifyReply) {
 		const { data, error } = await ordersService.getAllOrders();
 
-		console.log(data);
-
 		if (error) {
 			reply.status(500).send({ error });
 		} else {
 			reply.status(200).send(data);
 		}
+	}
+
+	async getMyOrders(request: FastifyRequest, reply: FastifyReply) {
+		const userId = request.userId;
+
+		if (!userId) {
+			return reply.status(401).send({ message: 'Usuário não autenticado' });
+		}
+
+		const { data, error } = await ordersService.getOrdersByUser(userId);
+
+		if (error) {
+			return reply.status(500).send({ error });
+		}
+
+		return reply.status(200).send(data);
 	}
 
 	async createOrder(request: FastifyRequest, reply: FastifyReply) {

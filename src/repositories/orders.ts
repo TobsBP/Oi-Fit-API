@@ -6,6 +6,10 @@ class OrdersRepository {
 		return await supabase.from('Order').select('*');
 	}
 
+	async getOrdersByUser(userId: string) {
+		return await supabase.from('Order').select('*').eq('userId', userId);
+	}
+
 	async createOrder(order: OrderCreate) {
 		return await supabase.from('Order').insert(order).select().single();
 	}

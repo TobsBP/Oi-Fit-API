@@ -22,6 +22,23 @@ export async function ordersRoute(server: FastifyInstance) {
 		ordersController.getAllOrders,
 	);
 
+	server.get(
+		'/orders/me',
+		{
+			preHandler: [authenticate],
+			schema: {
+				description: 'Get orders for the authenticated user',
+				response: {
+					200: z.array(orderSchema),
+					401: ErrorSchema,
+					500: ErrorSchema,
+				},
+				tags: ['Orders'],
+			},
+		},
+		ordersController.getMyOrders,
+	);
+
 	server.post(
 		'/order',
 		{
