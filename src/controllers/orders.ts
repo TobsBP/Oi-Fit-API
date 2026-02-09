@@ -1,71 +1,77 @@
-import { ordersService } from '@/services/orders.js';
-import { OrderCreate, OrderUpdate, CreatePaymentRequest } from '@/types/orders.js';
 import type { FastifyReply, FastifyRequest } from 'fastify';
+import { ordersService } from '@/services/orders.js';
+import type {
+	CreatePaymentRequest,
+	OrderCreate,
+	OrderUpdate,
+} from '@/types/orders.js';
 
 class OrdersController {
-  async getAllOrders(_request: FastifyRequest, reply: FastifyReply) {
-    const { data, error } = await ordersService.getAllOrders();
+	async getAllOrders(_request: FastifyRequest, reply: FastifyReply) {
+		const { data, error } = await ordersService.getAllOrders();
 
-    if (error) {
-      reply.status(500).send({ error });
-    } else {
-      reply.status(200).send(data);
-    }
-  }
+		console.log(data);
 
-  async createOrder(request: FastifyRequest, reply: FastifyReply) {
-    const orderData = request.body as OrderCreate;
+		if (error) {
+			reply.status(500).send({ error });
+		} else {
+			reply.status(200).send(data);
+		}
+	}
 
-    const { data, error } = await ordersService.createOrder(orderData);
+	async createOrder(request: FastifyRequest, reply: FastifyReply) {
+		const orderData = request.body as OrderCreate;
 
-    if (error) {
-      reply.status(500).send({ error });
-    } else {
-      reply.status(200).send(data);
-    }
-  }
+		const { data, error } = await ordersService.createOrder(orderData);
 
-  async createPayment(request: FastifyRequest, reply: FastifyReply) {
-    const { items, cityName } = request.body as CreatePaymentRequest;
-    const userId = request.userId;
+		if (error) {
+			reply.status(500).send({ error });
+		} else {
+			reply.status(200).send(data);
+		}
+	}
 
-    if (!userId) {
-      return reply.status(401).send({ message: 'Usuário não autenticado' });
-    }
+	async createPayment(request: FastifyRequest, reply: FastifyReply) {
+		const { items, cityName } = request.body as CreatePaymentRequest;
+		const userId = request.userId;
 
-    const result = await ordersService.createPayment(items, cityName, userId);
+		if (!userId) {
+			return reply.status(401).send({ message: 'Usuário não autenticado' });
+		}
 
-    if (result.error) {
-      return reply.status(400).send({ message: result.error });
-    }
+		const result = await ordersService.createPayment(items, cityName, userId);
 
-    return reply.status(200).send(result.data);
-  }
+		if (result.error) {
+			return reply.status(400).send({ message: result.error });
+		}
 
-  async updateOrder(request: FastifyRequest, reply: FastifyReply) {
-    const { id } = request.params as { id: string };
-    const orderData = request.body as OrderUpdate;
+		return reply.status(200).send(result.data);
+	}
 
-    const { data, error } = await ordersService.updateOrder(id, orderData);
+	async updateOrder(request: FastifyRequest, reply: FastifyReply) {
+		const { id } = request.params as { id: string };
+		const orderData = request.body as OrderUpdate;
 
-    if (error) {
-      return reply.status(400).send({ error });
-    }
+		const { data, error } = await ordersService.updateOrder(id, orderData);
 
-    return reply.status(200).send(data);
-  }
+		if (error) {
+			return reply.status(400).send({ error });
+		}
 
-  async deleteOrder(request: FastifyRequest, reply: FastifyReply) {
-    const { id } = request.params as { id: string };
+		return reply.status(200).send(data);
+	}
 
-    const { error } = await ordersService.deleteOrder(id);
+	async deleteOrder(request: FastifyRequest, reply: FastifyReply) {
+		const { id } = request.params as { id: string };
 
-    if (error) {
-      return reply.status(400).send({ error });
-    }
+		const { error } = await ordersService.deleteOrder(id);
 
-    return reply.status(204).send();
-  }
+		if (error) {
+			return reply.status(400).send({ error });
+		}
+
+		return reply.status(204).send();
+	}
 }
 
-export const ordersController = new OrdersController
+export const ordersController = new OrdersController();
