@@ -56,6 +56,7 @@ class OrdersService {
 				shippingAddress: { cityName },
 				quantity: item.quantity,
 				productId: item.productId,
+				paymentIntentId: null,
 			});
 		}
 
@@ -66,7 +67,13 @@ class OrdersService {
 				metadata: { userId, cityName },
 			});
 
-			const { error: orderError } = await ordersRepository.createOrders(orders);
+			const ordersWithPayment = orders.map((order) => ({
+				...order,
+				paymentIntentId: paymentIntent.id,
+			}));
+
+			const { error: orderError } =
+				await ordersRepository.createOrders(ordersWithPayment);
 
 			if (orderError) {
 				return { error: orderError };

@@ -23,6 +23,14 @@ class OrdersRepository {
 			.single();
 	}
 
+	async updateOrdersByPaymentIntent(paymentIntentId: string, status: string) {
+		return await supabase
+			.from('Order')
+			.update({ status })
+			.eq('paymentIntentId', paymentIntentId)
+			.select();
+	}
+
 	async deleteOrder(id: string) {
 		return await supabase.from('Order').delete().eq('id', id);
 	}
