@@ -1,6 +1,12 @@
 import type { FastifyReply, FastifyRequest } from 'fastify';
 import { supabase } from '@/lib/supabase.js';
 
+declare module 'fastify' {
+	interface FastifyRequest {
+		userId?: string;
+	}
+}
+
 export const authenticate = async (
 	request: FastifyRequest,
 	reply: FastifyReply,
@@ -34,4 +40,6 @@ export const authenticate = async (
 			message: 'Invalid or expired token',
 		});
 	}
+
+	request.userId = data.user.id;
 };
