@@ -21,6 +21,7 @@ export const orderSchema = z.object({
 	quantity: z.number(),
 	productId: z.string(),
 	paymentIntentId: z.string().nullable(),
+	delivery: z.string().nullable(),
 });
 
 export type Order = z.infer<typeof orderSchema>;

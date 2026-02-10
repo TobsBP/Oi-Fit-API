@@ -61,6 +61,7 @@ class OrdersService {
 				quantity: item.quantity,
 				productId: item.productId,
 				paymentIntentId: null,
+				delivery: null,
 			});
 		}
 
