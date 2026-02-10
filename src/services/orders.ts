@@ -46,6 +46,28 @@ class OrdersService {
 		);
 		const totalItemsSold = paidOrders.reduce((sum, o) => sum + o.quantity, 0);
 
+		const monthlyMap = new Map<string, { revenue: number; orders: number }>();
+		for (const order of paidOrders) {
+			const date = new Date(order.createdAt);
+			const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+			const entry = monthlyMap.get(month) ?? { revenue: 0, orders: 0 };
+			entry.revenue += order.totalPrice;
+			entry.orders += 1;
+			monthlyMap.set(month, entry);
+		}
+		const monthlyRevenue = Array.from(monthlyMap.entries())
+			.sort((a, b) => b[0].localeCompare(a[0]))
+			.map(([month, data]) => ({ month, ...data }));
+
+		const recentOrders = orders.slice(0, 10).map((o) => ({
+			id: o.id,
+			status: o.status,
+			totalPrice: o.totalPrice,
+			quantity: o.quantity,
+			productId: o.productId,
+			createdAt: o.createdAt,
+		}));
+
 		let stripeBalance = { available: 0, pending: 0 };
 		try {
 			const balance = await stripe.balance.retrieve();
@@ -69,6 +91,8 @@ class OrdersService {
 				totalItemsSold,
 				averageOrderValue:
 					paidOrders.length > 0 ? totalRevenue / paidOrders.length : 0,
+				monthlyRevenue,
+				recentOrders,
 				stripeBalance,
 			},
 		};

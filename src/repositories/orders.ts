@@ -36,7 +36,10 @@ class OrdersRepository {
 	}
 
 	async getOrderStats() {
-		return await supabase.from('Order').select('status, totalPrice, quantity');
+		return await supabase
+			.from('Order')
+			.select('id, status, totalPrice, quantity, productId, createdAt')
+			.order('createdAt', { ascending: false });
 	}
 
 	async deleteOrder(id: string) {
