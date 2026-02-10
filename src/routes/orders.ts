@@ -62,7 +62,26 @@ export async function ordersRoute(server: FastifyInstance) {
 		{
 			preHandler: [authenticate],
 			schema: {
-				description: 'Update an order',
+				description: 'Update an order (Full replacement)',
+				body: orderSchema
+					.omit({ id: true, createdAt: true, updatedAt: true })
+					.partial(),
+				response: {
+					200: orderSchema,
+					400: ErrorSchema,
+				},
+				tags: ['Orders'],
+			},
+		},
+		ordersController.updateOrder,
+	);
+
+	server.patch(
+		'/order/:id',
+		{
+			preHandler: [authenticate],
+			schema: {
+				description: 'Update an order (Partial update)',
 				body: orderSchema
 					.omit({ id: true, createdAt: true, updatedAt: true })
 					.partial(),
