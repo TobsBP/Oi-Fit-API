@@ -1,7 +1,12 @@
 import { stripe } from '@/lib/stripe.js';
 import { supabase } from '@/lib/supabase.js';
 import { ordersRepository } from '@/repositories/orders.js';
-import type { CartItem, OrderCreate, OrderUpdate } from '@/types/orders.js';
+import type {
+	CartItem,
+	OrderCreate,
+	OrderUpdate,
+	SalesStats,
+} from '@/types/orders.js';
 
 class OrdersService {
 	async getAllOrders() {
@@ -22,6 +27,51 @@ class OrdersService {
 
 	async deleteOrder(id: string) {
 		return await ordersRepository.deleteOrder(id);
+	}
+
+	async getSalesStats(): Promise<{ data?: SalesStats; error?: string }> {
+		const { data: orders, error } = await ordersRepository.getOrderStats();
+
+		if (error || !orders) {
+			return { error: error?.message || 'Falha ao buscar estatísticas' };
+		}
+
+		const paidOrders = orders.filter((o) => o.status === 'paid');
+		const pendingOrders = orders.filter((o) => o.status === 'pending');
+
+		const totalRevenue = paidOrders.reduce((sum, o) => sum + o.totalPrice, 0);
+		const pendingRevenue = pendingOrders.reduce(
+			(sum, o) => sum + o.totalPrice,
+			0,
+		);
+		const totalItemsSold = paidOrders.reduce((sum, o) => sum + o.quantity, 0);
+
+		let stripeBalance = { available: 0, pending: 0 };
+		try {
+			const balance = await stripe.balance.retrieve();
+			const availableBrl = balance.available.find((b) => b.currency === 'brl');
+			const pendingBrl = balance.pending.find((b) => b.currency === 'brl');
+			stripeBalance = {
+				available: (availableBrl?.amount ?? 0) / 100,
+				pending: (pendingBrl?.amount ?? 0) / 100,
+			};
+		} catch {
+			// Stripe balance fetch failed, return zeros
+		}
+
+		return {
+			data: {
+				totalOrders: orders.length,
+				paidOrders: paidOrders.length,
+				pendingOrders: pendingOrders.length,
+				totalRevenue,
+				pendingRevenue,
+				totalItemsSold,
+				averageOrderValue:
+					paidOrders.length > 0 ? totalRevenue / paidOrders.length : 0,
+				stripeBalance,
+			},
+		};
 	}
 
 	async createPayment(items: CartItem[], cityName: string, userId: string) {
