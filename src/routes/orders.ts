@@ -3,10 +3,7 @@ import z from 'zod';
 import { ordersController } from '@/controllers/orders.js';
 import { authenticate } from '@/middleware.js';
 import { ErrorSchema } from '@/types/error.js';
-import {
-	createPaymentSchema,
-	orderSchema,
-} from '@/types/orders.js';
+import { createPaymentSchema, orderSchema } from '@/types/orders.js';
 
 export async function ordersRoute(server: FastifyInstance) {
 	server.get(

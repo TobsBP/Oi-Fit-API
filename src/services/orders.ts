@@ -1,11 +1,7 @@
 import { stripe } from '@/lib/stripe.js';
 import { supabase } from '@/lib/supabase.js';
 import { ordersRepository } from '@/repositories/orders.js';
-import type {
-	CartItem,
-	OrderCreate,
-	OrderUpdate,
-} from '@/types/orders.js';
+import type { CartItem, OrderCreate, OrderUpdate } from '@/types/orders.js';
 
 class OrdersService {
 	async getAllOrders() {
