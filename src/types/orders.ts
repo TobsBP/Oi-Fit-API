@@ -27,37 +27,5 @@ export type Order = z.infer<typeof orderSchema>;
 export type CartItem = z.infer<typeof cartItemSchema>;
 export type CreatePaymentRequest = z.infer<typeof createPaymentSchema>;
 
-export const salesStatsSchema = z.object({
-	totalOrders: z.number(),
-	paidOrders: z.number(),
-	pendingOrders: z.number(),
-	totalRevenue: z.number(),
-	pendingRevenue: z.number(),
-	totalItemsSold: z.number(),
-	averageOrderValue: z.number(),
-	monthlyRevenue: z.array(
-		z.object({
-			month: z.string(),
-			revenue: z.number(),
-			orders: z.number(),
-		}),
-	),
-	recentOrders: z.array(
-		orderSchema.pick({
-			id: true,
-			status: true,
-			totalPrice: true,
-			quantity: true,
-			productId: true,
-			createdAt: true,
-		}),
-	),
-	stripeBalance: z.object({
-		available: z.number(),
-		pending: z.number(),
-	}),
-});
-
-export type SalesStats = z.infer<typeof salesStatsSchema>;
 export type OrderCreate = Omit<Order, 'id' | 'createdAt' | 'updatedAt'>;
 export type OrderUpdate = Partial<OrderCreate>;

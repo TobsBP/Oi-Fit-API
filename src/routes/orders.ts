@@ -6,26 +6,9 @@ import { ErrorSchema } from '@/types/error.js';
 import {
 	createPaymentSchema,
 	orderSchema,
-	salesStatsSchema,
 } from '@/types/orders.js';
 
 export async function ordersRoute(server: FastifyInstance) {
-	server.get(
-		'/orders/stats',
-		{
-			preHandler: [authenticate],
-			schema: {
-				description: 'Get sales statistics with Stripe balance',
-				response: {
-					200: salesStatsSchema,
-					500: ErrorSchema,
-				},
-				tags: ['Orders'],
-			},
-		},
-		ordersController.getSalesStats,
-	);
-
 	server.get(
 		'/orders',
 		{

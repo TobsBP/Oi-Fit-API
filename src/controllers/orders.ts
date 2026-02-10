@@ -7,16 +7,6 @@ import type {
 } from '@/types/orders.js';
 
 class OrdersController {
-	async getSalesStats(_request: FastifyRequest, reply: FastifyReply) {
-		const { data, error } = await ordersService.getSalesStats();
-
-		if (error) {
-			return reply.status(500).send({ error });
-		}
-
-		return reply.status(200).send(data);
-	}
-
 	async getAllOrders(_request: FastifyRequest, reply: FastifyReply) {
 		const { data, error } = await ordersService.getAllOrders();
 
