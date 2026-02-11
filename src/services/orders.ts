@@ -28,7 +28,7 @@ class OrdersService {
 		const productIds = items.map((item) => item.productId);
 		const { data: products, error: productsError } = await supabase
 			.from('Product')
-			.select('id, price, discount')
+			.select('id, price, discount, stock')
 			.in('id', productIds);
 
 		if (productsError || !products) {
@@ -44,6 +44,12 @@ class OrdersService {
 			const product = productMap.get(item.productId);
 			if (!product) {
 				return { error: `Produto ${item.productId} não encontrado` };
+			}
+
+			if (product.stock < item.quantity) {
+				return {
+					error: `Estoque insuficiente para o produto ${item.productId}. Disponível: ${product.stock}`,
+				};
 			}
 
 			const price =

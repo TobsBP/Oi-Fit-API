@@ -23,6 +23,31 @@ class ProductsRepository {
 			.single();
 	}
 
+	async decrementStock(productId: string, quantity: number) {
+		const { data: product, error: fetchError } = await supabase
+			.from('Product')
+			.select('stock')
+			.eq('id', productId)
+			.single();
+
+		if (fetchError || !product) {
+			return { error: fetchError?.message || 'Produto não encontrado' };
+		}
+
+		const newStock = product.stock - quantity;
+
+		const { error: updateError } = await supabase
+			.from('Product')
+			.update({ stock: newStock })
+			.eq('id', productId);
+
+		if (updateError) {
+			return { error: updateError.message };
+		}
+
+		return { error: null };
+	}
+
 	async deleteProduct(id: string) {
 		return await supabase
 			.from('Product')
